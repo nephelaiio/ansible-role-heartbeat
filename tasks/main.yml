@@ -1,0 +1,38 @@
+---
+- name: include variable overrides
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "vars/{{ ansible_distribution }}.yml"
+        - "vars/{{ ansible_os_family }}.yml"
+        - "vars/main.yml"
+  tags:
+    - heartbeat
+
+- name: install heartbeat oss packages
+  package:
+    name: "{{ heartbeat_packages | default(heartbeat_package_names_oss) }}"
+    state: "{{ heartbeat_package_state }}"
+  when: heartbeat_oss | bool
+
+- name: install heartbeat elastic packages
+  package:
+    name: "{{ heartbeat_packages | default(heartbeat_package_names_els) }}"
+    state: "{{ heartbeat_package_state }}"
+  when: not (heartbeat_oss | bool)
+
+ - name: configure heartbeat
+   copy:
+     content: |
+       # {{ ansible_managed }}
+
+       {{ heartbeat_conf_template | to_nice_yaml(indent=2) }}
+     dest: "{{ heartbeat_conf_path }}"
+   notify:
+     - restart heartbeat
+
+- name: manage heartbeat services
+  service:
+    name: "{{ heartbeat_service_name }}"
+    state: "{{ heartbeat_service_status }}"

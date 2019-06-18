@@ -1,0 +1,5 @@
+---
+- name: restart heartbeat
+  service:
+    name: "{{ heartbeat_service_name }}"
+    state: restarted
