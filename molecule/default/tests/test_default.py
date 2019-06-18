@@ -7,6 +7,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def test_host(host):
-    assert host.package('metricbeat').is_installed
-    assert host.service('metricbeat').is_running
-    assert host.service('metricbeat').is_enabled
+    assert host.package('metricbeat-elastic').is_installed
+    assert host.service('metricbeat-elastic').is_running
+    assert host.service('metricbeat-elastic').is_enabled

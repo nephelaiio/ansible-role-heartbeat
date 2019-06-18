@@ -17,9 +17,10 @@ galaxy_info:
       versions:
         - stretch
   galaxy_tags:
-    - 'heartbeat'
+    - heartbeat
 
 dependencies:
   - name: nephelaiio.elastic_repo
     vars:
+      elastic_repo_oss: "{{ heartbeat_oss }}"
     version: 1.0.0

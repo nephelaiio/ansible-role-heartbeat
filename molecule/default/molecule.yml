@@ -8,28 +8,28 @@ lint:
 platforms:
   - name: centos7
     image: centos:7
-    # privileged: True
-    # command: /usr/sbin/init
-    # volume_mounts:
-    #   - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    privileged: yes
+    command: /usr/sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - name: xenial
     image: ubuntu:xenial
-    # privileged: True
-    # command: /sbin/init
-    # volume_mounts:
-    #   - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    privileged: yes
+    command: /sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - name: bionic
     image: ubuntu:bionic
-    # privileged: True
-    # command: /sbin/init
-    # volume_mounts:
-    #   - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    privileged: yes
+    command: /sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - name: stretch
     image: debian:stretch
-    # privileged: True
-    # command: /sbin/init
-    # volume_mounts:
-    #   - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    privileged: yes
+    command: /sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
 provisioner:
   name: ansible
   lint:

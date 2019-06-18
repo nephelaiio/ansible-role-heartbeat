@@ -22,15 +22,16 @@
     state: "{{ heartbeat_package_state }}"
   when: not (heartbeat_oss | bool)
 
- - name: configure heartbeat
-   copy:
-     content: |
-       # {{ ansible_managed }}
+- name: configure heartbeat
+  copy:
+    content: |
+      # Ansible managed
 
-       {{ heartbeat_conf_template | to_nice_yaml(indent=2) }}
-     dest: "{{ heartbeat_conf_path }}"
-   notify:
-     - restart heartbeat
+      {{ heartbeat_conf }}
+    dest: "{{ heartbeat_conf_path }}"
+  notify:
+    - restart heartbeat
+  when: heartbeat_conf is defined
 
 - name: manage heartbeat services
   service:
