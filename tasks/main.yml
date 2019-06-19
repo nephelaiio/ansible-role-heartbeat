@@ -37,3 +37,4 @@
   service:
     name: "{{ heartbeat_service_name }}"
     state: "{{ heartbeat_service_status }}"
+    enabled: "{{ heartbeat_service_enabled }}"
