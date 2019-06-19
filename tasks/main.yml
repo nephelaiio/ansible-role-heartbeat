@@ -15,7 +15,7 @@
     name: "{{ heartbeat_package_names_els }}"
     state: absent
   when:
-    - heartbeat_package_names_els not in heartbeat_packages
+    - (not heartbeat_packages is defined) or (heartbeat_package_names_els not in heartbeat_packages)
     - heartbeat_oss | bool
 
 - name: install heartbeat oss packages
@@ -29,7 +29,7 @@
     name: "{{ heartbeat_package_names_oss }}"
     state: absent
   when:
-    - heartbeat_package_names_oss not in heartbeat_packages
+    - (not heartbeat_packages is defined) or (heartbeat_package_names_oss not in heartbeat_packages)
     - not (heartbeat_oss | bool)
 
 - name: install heartbeat elastic packages
