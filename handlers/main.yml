@@ -3,3 +3,12 @@
   service:
     name: "{{ heartbeat_service_name }}"
     state: restarted
+
+- name: install heartbeat template
+  command: |
+    heartbeat setup --template -E 'output.elasticsearch.enabled=true'
+  when:
+    - heartbeat_conf is defined
+    - output in heartbeat_conf
+    - elasticsearch in heartbeat_conf.output
+  ignore_errors: yes
