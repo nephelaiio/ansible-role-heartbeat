@@ -10,11 +10,27 @@
   tags:
     - heartbeat
 
+- name: uninstall heartbeat elastic packages
+  package:
+    name: "{{ heartbeat_package_names_els }}"
+    state: absent
+  when:
+    - heartbeat_package_names_els not in heartbeat_packages
+    - heartbeat_oss | bool
+
 - name: install heartbeat oss packages
   package:
     name: "{{ heartbeat_packages | default(heartbeat_package_names_oss) }}"
     state: "{{ heartbeat_package_state }}"
   when: heartbeat_oss | bool
+
+- name: uninstall heartbeat oss packages
+  package:
+    name: "{{ heartbeat_package_names_oss }}"
+    state: absent
+  when:
+    - heartbeat_package_names_oss not in heartbeat_packages
+    - not (heartbeat_oss | bool)
 
 - name: install heartbeat elastic packages
   package:
@@ -29,8 +45,7 @@
 
       {{ heartbeat_conf }}
     dest: "{{ heartbeat_conf_path }}"
-  notify:
-    - restart heartbeat
+  notify: restart heartbeat
   when: heartbeat_conf is defined
 
 - name: manage heartbeat services
