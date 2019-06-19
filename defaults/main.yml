@@ -3,7 +3,7 @@ heartbeat_package_names_oss: heartbeat-elastic-oss
 heartbeat_package_names_els: heartbeat-elastic
 heartbeat_oss: yes
 heartbeat_package_state: present
-heartbeat_conf_path: /etc/heartbeat/heartbeat.conf
+heartbeat_conf_path: /etc/heartbeat/heartbeat.yml
 heartbeat_service_name: heartbeat-elastic
 heartbeat_service_status: started
 heartbeat_service_enabled: yes
