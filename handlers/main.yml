@@ -9,6 +9,7 @@
     heartbeat setup --template -E 'output.elasticsearch.enabled=true'
   when:
     - "heartbeat_conf is defined"
-    - "'output' in heartbeat_conf"
-    - "'elasticsearch' in heartbeat_conf.output"
+    - "'heartbeat' in heartbeat_conf"
+    - "'output' in heartbeat_conf.heartbeat"
+    - "'elasticsearch' in heartbeat_conf.heartbeat.output"
   ignore_errors: yes
