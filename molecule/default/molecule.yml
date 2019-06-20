@@ -34,6 +34,19 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  inventory:
+    vars:
+      heartbeat_conf:
+        heartbeat:
+          monitors:
+            - type: http
+              schedule: '*/1 * * * * * *'
+              urls:
+                - https://www.google.com
+          output:
+            elasticsearch:
+              hosts:
+                - "localhost:9200"
 scenario:
   name: default
 verifier:
