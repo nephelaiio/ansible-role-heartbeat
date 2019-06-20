@@ -45,7 +45,7 @@
     content: |
       # Ansible managed
 
-      {{ heartbeat_conf }}
+      {{ heartbeat_conf | to_nice_yaml(indent=2) }}
     dest: "{{ heartbeat_conf_path }}"
   notify: restart heartbeat
   when:
