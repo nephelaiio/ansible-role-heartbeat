@@ -6,10 +6,15 @@
 
 - name: install heartbeat template
   command: |
-    heartbeat setup --template -E 'output.elasticsearch.enabled=true'
+    heartbeat setup --template -E {{ heartbeat_cmd_enable }} -E {{ heartbeat_cmd_hosts }}
+  vars:
+    heartbeat_els_hosts: "{{ heartbeat_conf.heartbeat.output.elasticsearch.hosts }}"
+    heartbeat_cmd_enable: "output.elasticsearch.enabled=true"
+    heartbeat_cmd_hosts: "output.elasticsearch.hosts={{ heartbeat_els_hosts | to_json }}"
   when:
     - "heartbeat_conf is defined"
     - "'heartbeat' in heartbeat_conf"
     - "'output' in heartbeat_conf.heartbeat"
     - "'elasticsearch' in heartbeat_conf.heartbeat.output"
+    - "'hosts' in heartbeat_conf.heartbeat.output.elasticsearch"
   ignore_errors: yes
