@@ -21,9 +21,32 @@ Please review the [dependency configuration](/meta/main.yml) for more details
 - hosts: servers
   vars:
     heartbeat_oss: no
+    heartbeat_package_state: latest
+    heartbeat_conf_manage: yes
+    heartbeat_conf:
+      heartbeat:
+        monitors:
+          - type: http
+            schedule: '*/1 * * * * * *'
+            urls:
+              - "https://www.google.com"
+              - "https://www.amazon.com"
+      output:
+        elasticsearch:
+          enabled: true
+          hosts:
+            - http://localhost:9200
+      setup:
+        dashboards:
+          enabled: true
+          beat: heartbeat
+          always_kibana: true
+        template:
+          enabled: true
+        kibana:
+          host: http://localhost:80
   roles:
      - role: nephelaiio.heartbeat
-       heartbeat_package_state: latest
 ```
 
 ## Testing
