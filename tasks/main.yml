@@ -50,6 +50,7 @@
   notify: restart heartbeat
   when:
     - heartbeat_conf is defined
+    - heartbeat_conf_manage | bool
 
 - name: manage heartbeat services
   service:
