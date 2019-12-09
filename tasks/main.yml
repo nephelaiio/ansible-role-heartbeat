@@ -30,7 +30,7 @@
       loop: "{{ [heartbeat_package_names] | flatten }}"
       when: ansible_os_family == 'Debian'
 
-  when: heartbeat_package_hold
+  when: heartbeat_package_hold | bool
 
 - name: install heartbeat packages
   package:
@@ -54,7 +54,7 @@
       tags:
         - skip_ansible_lint
 
-  when: heartbeat_package_hold
+  when: heartbeat_package_hold | bool
 
 - name: configure heartbeat
   copy:
