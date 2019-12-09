@@ -20,7 +20,6 @@ Please review the [dependency configuration](/meta/main.yml) for more details
 ```
 - hosts: servers
   vars:
-    heartbeat_oss: no
     heartbeat_package_state: latest
     heartbeat_conf_manage: yes
     heartbeat_conf:

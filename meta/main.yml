@@ -21,6 +21,4 @@ galaxy_info:
 
 dependencies:
   - name: nephelaiio.elastic_repo
-    vars:
-      elastic_repo_oss: "{{ heartbeat_oss }}"
-    version: 1.0.0
+    version: 2.0.0
