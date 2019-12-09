@@ -31,6 +31,7 @@
       when: ansible_os_family == 'Debian'
 
   when: heartbeat_package_hold | bool
+  ignore_errors: yes
 
 - name: install heartbeat packages
   package:
