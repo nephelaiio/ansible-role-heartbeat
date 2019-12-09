@@ -10,11 +10,51 @@
   tags:
     - heartbeat
 
+- block:
+
+    - name: install yum version lock support
+      package:
+        name: yum-plugin-versionlock
+      when: ansible_os_family == 'RedHat'
+
+    - name: disable yum package lock
+      command: "yum versionlock delete {{ item }}"
+      ignore_errors: yes
+      loop: "{{ [heartbeat_package_names] | flatten }}"
+      when: ansible_os_family == 'RedHat'
+      tags:
+        - skip_ansible_lint
+
+    - name: disable apt package lock
+      command: "apt-mark unhold {{ item }}"
+      loop: "{{ [heartbeat_package_names] | flatten }}"
+      when: ansible_os_family == 'Debian'
+
+  when: heartbeat_package_hold
+
 - name: install heartbeat packages
   package:
-    name: "{{ heartbeat_packages }}"
+    name: "{{ heartbeat_package_names }}"
     state: "{{ heartbeat_package_state }}"
   notify: install heartbeat template
+
+- block:
+
+    - name: enable apt package hold
+      command: "apt-mark hold {{ item }}"
+      loop: "{{ [heartbeat_package_names] | flatten }}"
+      when:
+        - ansible_os_family == 'Debian'
+
+    - name: enable yum package lock
+      command: "yum versionlock add {{ item }}"
+      loop: "{{ [heartbeat_package_names] | flatten }}"
+      when:
+        - ansible_os_family == 'RedHat'
+      tags:
+        - skip_ansible_lint
+
+  when: heartbeat_package_hold
 
 - name: configure heartbeat
   copy:
