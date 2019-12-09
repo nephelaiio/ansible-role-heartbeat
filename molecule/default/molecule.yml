@@ -36,6 +36,7 @@ provisioner:
     name: ansible-lint
   inventory:
     vars:
+      heartbeat_package_hold: yes
       heartbeat_conf:
         heartbeat:
           monitors:
