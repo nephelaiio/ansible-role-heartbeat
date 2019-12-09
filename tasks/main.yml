@@ -10,6 +10,11 @@
   tags:
     - heartbeat
 
+- name: configure elastic repo
+  include_role:
+    name: nephelaiio.elastic_repo
+  when: heartbeat_repo_manage | bool
+
 - block:
 
     - name: install yum version lock support

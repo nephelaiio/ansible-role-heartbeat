@@ -22,3 +22,4 @@ galaxy_info:
 dependencies:
   - name: nephelaiio.elastic_repo
     version: 2.0.0
+    when: false
