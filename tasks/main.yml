@@ -42,7 +42,6 @@
   package:
     name: "{{ heartbeat_package_names }}"
     state: "{{ heartbeat_package_state }}"
-  notify: install heartbeat template
 
 - block:
 
