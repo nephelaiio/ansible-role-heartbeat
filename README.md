@@ -48,6 +48,17 @@ Please review the [dependency configuration](/meta/main.yml) for more details
      - role: nephelaiio.heartbeat
 ```
 
+## Example Playbook with config file
+
+```
+- hosts: servers
+  vars:
+    heartbeat_package_state: latest
+    heartbeat_conf_file: ./my-heartbeat-config.yml
+  roles:
+     - role: nephelaiio.heartbeat
+```
+
 ## Testing
 
 Please make sure your environment has [docker](https://www.docker.com) installed in order to run role validation tests. Additional python dependencies are listed in the [requirements file](https://github.com/nephelaiio/ansible-role-requirements/blob/master/requirements.txt)

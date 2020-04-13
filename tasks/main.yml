@@ -73,6 +73,15 @@
     - heartbeat_conf is defined
     - heartbeat_conf_manage | bool
 
+- name: copy heartbeat configuration file
+  copy:
+    src: "{{ heartbeat_conf_file }}"
+    dest: "{{ heartbeat_conf_path }}"
+  notify: restart heartbeat
+  when:
+    - heartbeat_conf_file is defined
+    - heartbeat_conf_manage | bool
+
 - name: manage heartbeat services
   service:
     name: "{{ heartbeat_service_name }}"
