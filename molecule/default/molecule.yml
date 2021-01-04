@@ -3,37 +3,19 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
 platforms:
-  - name: centos7
-    image: centos:7
-    privileged: yes
-    command: /usr/sbin/init
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - name: xenial
-    image: ubuntu:xenial
-    privileged: yes
-    command: /sbin/init
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - name: bionic
-    image: ubuntu:bionic
-    privileged: yes
-    command: /sbin/init
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - name: stretch
-    image: debian:stretch
-    privileged: yes
-    command: /sbin/init
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  - name: instance
+    image: "${MOLECULE_DOCKER_IMAGE}"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  log: true
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
   inventory:
     vars:
       heartbeat_package_hold: yes
@@ -52,5 +34,3 @@ scenario:
   name: default
 verifier:
   name: testinfra
-  lint:
-    name: flake8
