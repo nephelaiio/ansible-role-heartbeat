@@ -68,6 +68,9 @@
 
       {{ heartbeat_conf | to_nice_yaml(indent=2) }}
     dest: "{{ heartbeat_conf_path }}"
+    owner: root
+    group: root
+    mode: 0600
   notify: restart heartbeat
   when:
     - heartbeat_conf is defined
@@ -77,6 +80,9 @@
   copy:
     src: "{{ heartbeat_conf_file }}"
     dest: "{{ heartbeat_conf_path }}"
+    owner: root
+    group: root
+    mode: 0600
   notify: restart heartbeat
   when:
     - heartbeat_conf_file is defined
