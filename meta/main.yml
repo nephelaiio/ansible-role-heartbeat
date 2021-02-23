@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: heartbeat
-  author: Ted Cook
+  author: nephelaiio
   description: An Ansible role to install and configure heartbeat
   license: MIT
   min_ansible_version: 2.7
