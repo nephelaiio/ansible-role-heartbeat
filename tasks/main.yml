@@ -50,29 +50,29 @@
 
   when: heartbeat_package_hold | bool
 
-- name: configure heartbeat
-  copy:
-    content: |
-      # Ansible managed
+- block:
 
-      {{ heartbeat_conf | to_nice_yaml(indent=2) }}
-    dest: "{{ heartbeat_conf_path }}"
-    owner: root
-    group: root
-    mode: 0600
-  notify: restart heartbeat
-  when:
-    - heartbeat_conf is defined
-    - heartbeat_conf_manage | bool
+    - name: configure heartbeat
+      copy:
+        content: |
+          # Ansible managed
 
-- name: copy heartbeat configuration file
-  copy:
-    src: "{{ heartbeat_conf_file }}"
-    dest: "{{ heartbeat_conf_path }}"
-    owner: root
-    group: root
-    mode: 0600
-  notify: restart heartbeat
+          {{ heartbeat_conf | to_nice_yaml(indent=2) }}
+        dest: "{{ heartbeat_conf_path }}"
+        owner: root
+        group: root
+        mode: 0600
+      notify: restart heartbeat
+
+    - name: copy heartbeat configuration file
+      copy:
+        src: "{{ heartbeat_conf_file }}"
+        dest: "{{ heartbeat_conf_path }}"
+        owner: root
+        group: root
+        mode: 0600
+      notify: restart heartbeat
+
   when:
     - heartbeat_conf_file is defined
     - heartbeat_conf_manage | bool
@@ -82,3 +82,4 @@
     name: "{{ heartbeat_service_name }}"
     state: "{{ heartbeat_service_status }}"
     enabled: "{{ heartbeat_service_enabled }}"
+  when: heartbeat_service_manage | bool
