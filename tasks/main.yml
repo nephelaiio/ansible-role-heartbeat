@@ -76,10 +76,11 @@
   when:
     - heartbeat_conf_file is defined
     - heartbeat_conf_manage | bool
+    - heartbeat_package_state in ['present', 'latest']
 
 - name: manage heartbeat services
   service:
     name: "{{ heartbeat_service_name }}"
     state: "{{ heartbeat_service_status }}"
     enabled: "{{ heartbeat_service_enabled }}"
-  when: heartbeat_service_manage | bool
+  when: heartbeat_package_state in ['present', 'latest']
