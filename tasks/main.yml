@@ -64,17 +64,7 @@
         mode: 0600
       notify: restart heartbeat
 
-    - name: copy heartbeat configuration file
-      copy:
-        src: "{{ heartbeat_conf_file }}"
-        dest: "{{ heartbeat_conf_path }}"
-        owner: root
-        group: root
-        mode: 0600
-      notify: restart heartbeat
-
   when:
-    - heartbeat_conf_file is defined
     - heartbeat_conf_manage | bool
     - heartbeat_package_state in ['present', 'latest']
 

@@ -54,7 +54,6 @@ Please review the [dependency configuration](/meta/main.yml) for more details
 - hosts: servers
   vars:
     heartbeat_package_state: latest
-    heartbeat_conf_file: ./my-heartbeat-config.yml
   roles:
      - role: nephelaiio.heartbeat
 ```
