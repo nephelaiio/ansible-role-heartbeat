@@ -4,28 +4,39 @@
     name: nephelaiio.elastic_repo
   when: heartbeat_repo_manage | bool
 
+- name: inspect packages
+  package_facts:
+    manager: auto
+
 - block:
 
-    - name: install yum version lock support
-      package:
-        name: yum-plugin-versionlock
-      when: ansible_os_family == 'RedHat'
+    - block:
 
-    - name: disable yum package lock
-      command: "yum versionlock delete {{ item }}"
-      ignore_errors: yes
-      loop: "{{ [heartbeat_package_names] | flatten }}"
-      when: ansible_os_family == 'RedHat'
-      tags:
-        - skip_ansible_lint
+        - name: install yum version lock support
+          package:
+            name: yum-plugin-versionlock
+
+        - name: disable yum package lock
+          community.general.yum_versionlock:
+            name: "{{ item }}"
+            state: absent
+          loop: "{{ [heartbeat_package_names] | flatten }}"
+          when: item in packages
+          tags:
+            - skip_ansible_lint
+
+      when: (ansible_os_family | lower) == 'redhat'
 
     - name: disable apt package lock
-      command: "apt-mark unhold {{ item }}"
+      dpkg_selections:
+        name: "{{ item }}"
+        selection: install
       loop: "{{ [heartbeat_package_names] | flatten }}"
-      when: ansible_os_family == 'Debian'
+      when:
+        - (ansible_os_family | lower) == 'debian'
+        - item in packages
 
   when: heartbeat_package_hold | bool
-  ignore_errors: yes
 
 - name: install heartbeat packages
   package:
@@ -34,23 +45,25 @@
 
 - block:
 
-    - name: enable apt package hold
-      command: "apt-mark hold {{ item }}"
-      loop: "{{ [heartbeat_package_names] | flatten }}"
-      when:
-        - ansible_os_family == 'Debian'
+    - block:
 
-    - name: enable yum package lock
-      command: "yum versionlock add {{ item }}"
-      loop: "{{ [heartbeat_package_names] | flatten }}"
-      when:
-        - ansible_os_family == 'RedHat'
-      tags:
-        - skip_ansible_lint
+        - name: enable apt package hold
+          dpkg_selections:
+            name: "{{ item }}"
+            selection: hold
+          loop: "{{ [heartbeat_package_names] | flatten }}"
+          when: (ansible_os_family | lower) == 'debian'
 
-  when: heartbeat_package_hold | bool
+        - name: enable yum package lock
+          community.general.yum_versionlock:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ [heartbeat_package_names] | flatten }}"
+          when: (ansible_os_family | lower) == 'redhat'
+          tags:
+            - skip_ansible_lint
 
-- block:
+      when: heartbeat_package_hold | bool
 
     - name: configure heartbeat
       copy:
@@ -63,14 +76,12 @@
         group: root
         mode: 0600
       notify: restart heartbeat
+      when: heartbeat_conf_manage | bool
 
-  when:
-    - heartbeat_conf_manage | bool
-    - heartbeat_package_state in ['present', 'latest']
+    - name: manage heartbeat services
+      service:
+        name: "{{ heartbeat_service_name }}"
+        state: "{{ heartbeat_service_status }}"
+        enabled: "{{ heartbeat_service_enabled }}"
 
-- name: manage heartbeat services
-  service:
-    name: "{{ heartbeat_service_name }}"
-    state: "{{ heartbeat_service_status }}"
-    enabled: "{{ heartbeat_service_enabled }}"
   when: heartbeat_package_state in ['present', 'latest']
