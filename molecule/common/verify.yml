@@ -29,12 +29,10 @@
         _service: heartbeat-elastic.service
       when: services[_service].status != "enabled"
 
-    - name: Stat output filename
+    - name: Verify output file
       ansible.builtin.stat:
         path: "{{ heartbeat_conf.output.file.path }}/{{ heartbeat_conf.output.file.filename }}"
       register: _output_file
-
-    - name: Verify output file
-      ansible.builtin.fail:
-        msg: "Output file {{  heartbeat_conf.output.file.filename}} not found"
-      when: not _output_file.stat.exists
+      retries: 4
+      delay: 35
+      failed_when: not _output_file.stat.exists
