@@ -1,9 +1,4 @@
 ---
-- name: Configure elastic repo
-  ansible.builtin.include_role:
-    name: nephelaiio.heartbeat
-  when: heartbeat_repo_manage
-
 - name: Collect package facts
   ansible.builtin.package_facts:
     manager: auto

@@ -19,4 +19,4 @@ galaxy_info:
 
 dependencies:
   - name: nephelaiio.elastic_repo
-    when: false
+    when: heartbeat_repo_manage
