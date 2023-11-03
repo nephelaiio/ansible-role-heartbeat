@@ -1,5 +1,6 @@
 ---
-- name: restart heartbeat
-  service:
+- name: Restart heartbeat
+  ansible.builtin.service:
     name: "{{ heartbeat_service_name }}"
     state: restarted
+  listen:: heartbeat_restart

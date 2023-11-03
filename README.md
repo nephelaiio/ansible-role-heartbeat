@@ -1,7 +1,7 @@
 # nephelaiio.heartbeat
 
-[![Build Status](https://github.com/nephelaiio/ansible-role-heartbeat/workflows/CI/badge.svg)](https://github.com/nephelaiio/ansible-role-heartbeat/actions)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-nephelaiio.heartbeat-blue.svg)](https://galaxy.ansible.com/nephelaiio/heartbeat/)
+[![Build Status](https://github.com/nephelaiio/ansible-role-heartbeat/actions/workflows/molecule.yml/badge.svg)](https://github.com/nephelaiio/ansible-role-heartbeat/actions/workflows/molecule.yml)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-nephelaiio.heartbeat.vim-blue.svg)](https://galaxy.ansible.com/nephelaiio/heartbeat/)
 
 An [ansible role](https://galaxy.ansible.com/nephelaiio/heartbeat) to install and configure heartbeat
 
@@ -11,7 +11,7 @@ Please refer to the [defaults file](/defaults/main.yml) for an up to date list o
 
 ## Dependencies
 
-* [nephelaiio.elastic_repo](https://galaxy.ansible.com/nephelaiio/elastic_repo/)
+* [nephelaiio.heartbeat](https://galaxy.ansible.com/nephelaiio/heartbeat/)
 
 Please review the [dependency configuration](/meta/main.yml) for more details
 

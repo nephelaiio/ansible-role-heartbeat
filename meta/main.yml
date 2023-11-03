@@ -4,20 +4,18 @@ galaxy_info:
   author: nephelaiio
   description: An Ansible role to install and configure heartbeat
   license: MIT
-  min_ansible_version: 2.7
+  min_ansible_version: '2.7'
   platforms:
     - name: EL
       versions:
-        - 7
+        - all
     - name: Ubuntu
       versions:
-        - bionic
-        - xenial
+        - all
     - name: Debian
       versions:
-        - stretch
-  galaxy_tags:
-    - heartbeat
+        - all
+  galaxy_tags: ['heartbeat']
 
 dependencies:
   - name: nephelaiio.elastic_repo

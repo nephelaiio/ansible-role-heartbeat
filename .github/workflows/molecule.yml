@@ -1,0 +1,73 @@
+---
+name: molecule
+
+on:
+
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: "0 5 * * 5"
+
+defaults:
+
+  run:
+    working-directory: 'nephelaiio.heartbeat'
+
+jobs:
+
+  molecule:
+
+    name: molecule
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - image: ubuntu2204
+            scenario: elastic
+            command: /lib/systemd/systemd
+          - image: ubuntu2004
+            scenario: default
+            command: /lib/systemd/systemd
+          - image: debian12
+            scenario: elastic
+            command: /lib/systemd/systemd
+          - image: debian12
+            scenario: elastic
+          - image: debian11
+            scenario: default
+            command: /lib/systemd/systemd
+          - image: rockylinux9
+            scenario: elastic
+            command: /usr/lib/systemd/systemd
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+        with:
+          path: 'nephelaiio.heartbeat'
+
+      - name: Set up python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Update ubuntu repositories
+        run: sudo apt-get update
+
+      - name: Install make
+        run: sudo apt-get install -y make
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Debug test environment
+        run: make debug
+
+      - name: Run molecule tests.
+        run: make test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DOCKER_IMAGE: ${{ matrix.image }}
+          MOLECULE_DOCKER_COMMAND: ${{ matrix.command }}
+          MOLECULE_SCENARIO: ${{ matrix.scenario }}
