@@ -33,6 +33,6 @@
       ansible.builtin.stat:
         path: "{{ heartbeat_conf.output.file.path }}/{{ heartbeat_conf.output.file.filename }}"
       register: _output_file
-      retries: 4
-      delay: 35
-      failed_when: not _output_file.stat.exists
+      retries: 2
+      delay: 60
+      until: _output_file.stat.exists
