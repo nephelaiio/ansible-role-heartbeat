@@ -1,0 +1,35 @@
+---
+name: lint
+
+on:
+  pull_request:
+    branches:
+      - master
+
+defaults:
+  run:
+    working-directory: 'nephelaiio.heartbeat'
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+        with:
+          path: 'nephelaiio.heartbeat'
+
+      - name: Set up python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Update ubuntu repositories
+        run: sudo apt-get update
+
+      - name: Install make
+        run: sudo apt-get install -y make
+
+      - name: Lint code
+        run: make lint
