@@ -38,9 +38,9 @@ provisioner:
                   schedule: '*/1 * * * * * *'
                   urls:
                     - https://www.google.com
-              output:
-                elasticsearch:
-                  hosts:
-                    - "localhost:9200"
+            output:
+              file:
+                path: /tmp
+                filename: heartbeat
 verifier:
   name: ansible

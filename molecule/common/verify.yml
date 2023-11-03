@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Collect package facts
+      ansible.builtin.package_facts:
+
+    - name: Verify package deployment
+      ansible.builtin.fail:
+        msg: "Package {{ _package }} was not deployed"
+      vars:
+        _package: heartbeat-elastic
+      when: _package not in packages
+
+    - name: Collect service facts
+      ansible.builtin.service_facts:
+
+    - name: Verify service run state
+      ansible.builtin.fail:
+        msg: "Service {{ _service }} is not running"
+      vars:
+        _service: heartbeat-elastic.service
+      when: services[_service].state != "running"
+
+    - name: Verify service boot state
+      ansible.builtin.fail:
+        msg: "Service {{ _service }} is not enabled"
+      vars:
+        _service: heartbeat-elastic.service
+      when: services[_service].status != "enabled"
+
+    - name: Stat output filename
+      ansible.builtin.stat:
+        path: "{{ heartbeat_conf.output.file.path }}/{{ heartbeat_conf.output.file.filename }}"
+      register: _output_file
+
+    - name: Verify output file
+      ansible.builtin.fail:
+        msg: "Output file {{  heartbeat_conf.output.file.filename}} not found"
+      when: not _output_file.stat.exists
