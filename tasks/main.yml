@@ -78,7 +78,7 @@
       notify: heartbeat_restart
       when: heartbeat_conf_manage
 
-    - name: manage heartbeat services
+    - name: Manage heartbeat services
       ansible.builtin.service:
         name: "{{ heartbeat_service_name }}"
         state: "{{ heartbeat_service_status }}"
