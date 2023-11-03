@@ -26,20 +26,15 @@ jobs:
           - image: ubuntu2204
             scenario: elastic
             command: /lib/systemd/systemd
-          - image: ubuntu2004
-            scenario: default
-            command: /lib/systemd/systemd
-          - image: debian12
-            scenario: elastic
-            command: /lib/systemd/systemd
-          - image: debian12
-            scenario: elastic
-          - image: debian11
-            scenario: default
-            command: /lib/systemd/systemd
           - image: rockylinux9
             scenario: elastic
             command: /usr/lib/systemd/systemd
+          - image: ubuntu2004
+            scenario: default
+            command: /lib/systemd/systemd
+          - image: debian11
+            scenario: default
+            command: /lib/systemd/systemd
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v4

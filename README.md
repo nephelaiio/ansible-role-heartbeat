@@ -65,9 +65,8 @@ Please make sure your environment has [docker](https://www.docker.com) installed
 Role is tested against the following distributions (docker images):
   * Ubuntu Focal
   * Ubuntu Bionic
-  * Ubuntu Xenial
-  * CentOS 7
-  * Debian Buster
+  * Rocky Linux 9
+  * Debian Bullseye
 
 You can test the role directly from sources using command ` molecule test `
 
