@@ -1,6 +1,9 @@
 ---
 - name: Verify
   hosts: all
+  vars:
+    _package: heartbeat-elastic
+    _service: heartbeat-elastic.service
   tasks:
     - name: Collect package facts
       ansible.builtin.package_facts:
@@ -8,8 +11,6 @@
     - name: Verify package deployment
       ansible.builtin.fail:
         msg: "Package {{ _package }} was not deployed"
-      vars:
-        _package: heartbeat-elastic
       when: _package not in packages
 
     - name: Collect service facts
@@ -18,21 +19,24 @@
     - name: Verify service run state
       ansible.builtin.fail:
         msg: "Service {{ _service }} is not running"
-      vars:
-        _service: heartbeat-elastic.service
       when: services[_service].state != "running"
 
     - name: Verify service boot state
       ansible.builtin.fail:
         msg: "Service {{ _service }} is not enabled"
-      vars:
-        _service: heartbeat-elastic.service
       when: services[_service].status != "enabled"
 
     - name: Verify output file
       ansible.builtin.stat:
-        path: "{{ heartbeat_conf.output.file.path }}/{{ heartbeat_conf.output.file.filename }}"
+        path: "{{ heartbeat_conf.output.file.path }}/{{ heartbeat_conf.output.file.filename }}{{ _suffix }}"
+      vars:
+        _version: "{{ packages[_package][0].version }}"
+        _date: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}"
+        _suffix_7x: ""
+        _suffix_8x: "-{{ _date }}.ndjson"
+        _suffix: "{{ _version is version('8.0.0', '>=') | ternary(_suffix_8x, _suffix_7x) }}"
       register: _output_file
       retries: 2
       delay: 60
       until: _output_file.stat.exists
+      when:
