@@ -28,7 +28,7 @@ provisioner:
     hosts:
       all:
         vars:
-          heartbeat_package_hold: yes
+          heartbeat_package_hold: true
           heartbeat_conf:
             heartbeat:
               monitors:

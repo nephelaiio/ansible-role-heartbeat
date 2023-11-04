@@ -30,7 +30,7 @@ provisioner:
         vars:
           elasticsearch_repo_major_version: 8
           elastic_repo_oss: false
-          heartbeat_package_hold: yes
+          heartbeat_package_hold: true
           heartbeat_conf:
             heartbeat:
               monitors:
