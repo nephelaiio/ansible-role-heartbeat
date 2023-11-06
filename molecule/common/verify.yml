@@ -13,6 +13,13 @@
         msg: "Package {{ _package }} was not deployed"
       when: _package not in packages
 
+    - name: Check package version
+      ansible.builtin.fail:
+        msg: "Found unexpected major version '{{ _version[0] }}' expected '{{ elasticsearch_repo_major_version }}'"
+      vars:
+        _version: "{{ packages[_package][0].version }}"
+      when: (_version[0] | string) != (elasticsearch_repo_major_version | string)
+
     - name: Collect service facts
       ansible.builtin.service_facts:
 

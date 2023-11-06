@@ -1,6 +1,6 @@
 .PHONY: all ${MAKECMDGOALS}
 
-MOLECULE_SCENARIO ?= default
+MOLECULE_SCENARIO ?= 7x
 MOLECULE_DOCKER_IMAGE ?= ubuntu2004
 GALAXY_API_KEY ?=
 GITHUB_REPOSITORY ?= $$(git config --get remote.origin.url | cut -d: -f 2 | cut -d. -f 1)

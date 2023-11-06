@@ -23,8 +23,8 @@ jobs:
     strategy:
       matrix:
         scenario:
-          - name: default
-          - name: elastic
+          - name: 7x
+          - name: 8x
         image:
           - name: ubuntu2204
             command: /lib/systemd/systemd
