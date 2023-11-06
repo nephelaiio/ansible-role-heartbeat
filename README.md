@@ -21,7 +21,7 @@ Please review the [dependency configuration](/meta/main.yml) for more details
 - hosts: servers
   vars:
     heartbeat_package_state: latest
-    heartbeat_conf_manage: yes
+    heartbeat_conf_manage: true
     heartbeat_conf:
       heartbeat:
         monitors:

@@ -1,10 +1,10 @@
 ---
 heartbeat_package_names: heartbeat-elastic
 heartbeat_package_state: present
-heartbeat_package_hold: no
-heartbeat_conf_manage: yes
+heartbeat_package_hold: false
+heartbeat_conf_manage: true
 heartbeat_conf_path: /etc/heartbeat/heartbeat.yml
 heartbeat_service_name: heartbeat-elastic
 heartbeat_service_status: started
-heartbeat_service_enabled: yes
-heartbeat_repo_manage: yes
+heartbeat_service_enabled: true
+heartbeat_repo_manage: true

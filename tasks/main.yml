@@ -52,7 +52,7 @@
             selection: hold
           loop: "{{ [heartbeat_package_names] | flatten }}"
           changed_when: false
-          when: (ansible_os_family | lower) == 'debian'
+          when: ansible_os_family == 'Debian'
 
         - name: Enable yum package lock
           community.general.yum_versionlock:

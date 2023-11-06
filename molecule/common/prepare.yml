@@ -4,5 +4,5 @@
   tasks:
     - name: Update apt package cache
       ansible.builtin.apt:
-        update_cache: yes
+        update_cache: true
       when: ansible_os_family == 'Debian'

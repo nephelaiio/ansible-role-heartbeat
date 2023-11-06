@@ -25,22 +25,20 @@ provisioner:
     defaults:
       callbacks_enabled: ansible.posix.profile_tasks
   inventory:
-    hosts:
+    group_vars:
       all:
-        vars:
-          elasticsearch_repo_major_version: 8
-          elastic_repo_oss: false
-          heartbeat_package_hold: yes
-          heartbeat_conf:
-            heartbeat:
-              monitors:
-                - type: http
-                  schedule: '*/1 * * * * * *'
-                  urls:
-                    - https://www.google.com
-            output:
-              file:
-                path: /tmp
-                filename: heartbeat
+        elasticsearch_repo_major_version: 7
+        heartbeat_package_hold: true
+        heartbeat_conf:
+          heartbeat:
+            monitors:
+              - type: http
+                schedule: '*/1 * * * * * *'
+                urls:
+                  - https://www.google.com
+          output:
+            file:
+              path: /tmp
+              filename: heartbeat
 verifier:
   name: ansible
