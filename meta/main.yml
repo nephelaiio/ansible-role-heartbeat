@@ -17,6 +17,4 @@ galaxy_info:
         - all
   galaxy_tags: ['heartbeat']
 
-dependencies:
-  - name: nephelaiio.elastic_repo
-    when: heartbeat_repo_manage
+dependencies: []
