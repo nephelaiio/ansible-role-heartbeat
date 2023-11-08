@@ -1,4 +1,9 @@
 ---
+- name: Configure elastic repository
+  ansible.builtin.include_role:
+    name: nephelaiio.elastic_repo
+  when: heartbeat_repo_manage
+
 - name: Collect package facts
   ansible.builtin.package_facts:
     manager: auto
@@ -75,8 +80,5 @@
       notify: heartbeat_restart
       when: heartbeat_conf_manage
 
-    - name: Manage heartbeat services
-      ansible.builtin.service:
-        name: "{{ heartbeat_service_name }}"
-        state: "{{ heartbeat_service_status }}"
-        enabled: "{{ heartbeat_service_enabled }}"
+    - name: Include service tasks
+      ansible.builtin.include_tasks: service.yml
