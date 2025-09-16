@@ -11,11 +11,9 @@
 - name: Disable package locks
   when: heartbeat_package_hold
   block:
-
     - name: Disable yum package lock
       when: ansible_os_family == 'RedHat'
       block:
-
         - name: Install yum version lock support
           ansible.builtin.package:
             name: yum-plugin-versionlock
@@ -46,11 +44,9 @@
 - name: Configure heartbeat
   when: heartbeat_package_state in ['present', 'latest']
   block:
-
     - name: Enable package locks
       when: heartbeat_package_hold
       block:
-
         - name: Enable apt package hold
           ansible.builtin.dpkg_selections:
             name: "{{ item }}"
@@ -76,7 +72,7 @@
         dest: "{{ heartbeat_conf_path }}"
         owner: root
         group: root
-        mode: 0600
+        mode: "0600"
       notify: heartbeat_restart
       when: heartbeat_conf_manage
 
