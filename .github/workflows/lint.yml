@@ -8,28 +8,26 @@ on:
 
 defaults:
   run:
-    working-directory: 'nephelaiio.heartbeat'
+    working-directory: "nephelaiio.heartbeat"
 
 jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the codebase
+      - name: Check out the codebase.
         uses: actions/checkout@v4
         with:
-          path: 'nephelaiio.heartbeat'
+          path: "nephelaiio.heartbeat"
 
-      - name: Set up python 3
-        uses: actions/setup-python@v4
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
         with:
-          python-version: '3.x'
+          enable-cache: true
+          project-path: "nephelaiio.heartbeat"
 
-      - name: Update ubuntu repositories
-        run: sudo apt-get update
+      - name: Debug test environment
+        run: devbox run -- make debug
 
-      - name: Install make
-        run: sudo apt-get install -y make
-
-      - name: Lint code
-        run: make lint
+      - name: Run molecule tests
+        run: devbox run -- make lint

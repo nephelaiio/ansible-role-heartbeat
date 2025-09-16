@@ -4,7 +4,7 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: heartbeat-7x
+  - name: heartbeat
     image: "geerlingguy/docker-${MOLECULE_DOCKER_IMAGE:-ubuntu2004}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     cgroupns_mode: host
@@ -33,7 +33,7 @@ provisioner:
           heartbeat:
             monitors:
               - type: http
-                schedule: '*/1 * * * * * *'
+                schedule: "*/1 * * * * * *"
                 urls:
                   - https://www.google.com
           output:
