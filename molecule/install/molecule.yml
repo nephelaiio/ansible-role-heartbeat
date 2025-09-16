@@ -27,7 +27,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        elasticsearch_repo_major_version: 7
+        elasticsearch_repo_major_version: "{{ lookup('env','MOLECULE_ELASTICSEARCH_MAJOR_VERSION') }}"
         heartbeat_package_hold: true
         heartbeat_conf:
           heartbeat:
