@@ -13,4 +13,4 @@ heartbeat_conf_output: {}
 heartbeat_conf:
   heartbeat:
     monitors: "{{ heartbeat_conf_monitors }}"
-    output: "{{ heartbeat_conf_output }) }}"
+    output: "{{ heartbeat_conf_output }}"
