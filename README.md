@@ -20,47 +20,24 @@ Please review the [dependency configuration](/meta/main.yml) for more details
 ```
 - hosts: servers
   vars:
-    heartbeat_package_state: latest
-    heartbeat_conf_manage: true
-    heartbeat_conf:
-      heartbeat:
-        monitors:
-          - type: http
-            schedule: '*/1 * * * * * *'
-            urls:
-              - "https://www.google.com"
-              - "https://www.amazon.com"
-      output:
-        elasticsearch:
-          enabled: true
-          hosts:
-            - http://localhost:9200
-      setup:
-        dashboards:
-          enabled: true
-          beat: heartbeat
-          always_kibana: true
-        template:
-          enabled: true
-        kibana:
-          host: http://localhost:80
-  roles:
-     - role: nephelaiio.heartbeat
-```
-
-## Example Playbook with config file
-
-```
-- hosts: servers
-  vars:
-    heartbeat_package_state: latest
+    heartbeat_conf_monitors:
+      - type: http
+        schedule: '*/1 * * * * * *'
+        urls:
+          - "https://www.google.com"
+          - "https://www.amazon.com"
+    heartbeat_conf_output:
+      elasticsearch:
+        enabled: true
+         hosts:
+          - http://localhost:9200
   roles:
      - role: nephelaiio.heartbeat
 ```
 
 ## Testing
 
-Please make sure your environment has [docker](https://www.docker.com) installed in order to run role validation tests. Additional python dependencies are listed in the [requirements file](https://github.com/nephelaiio/ansible-role-requirements/blob/master/requirements.txt)
+Please make sure your environment has [devbox](https://www.jetify.com/devbox) [docker](https://www.docker.com) installed in order to run validation tests.
 
 Role is tested against the following distributions (docker images):
 
@@ -69,7 +46,7 @@ Role is tested against the following distributions (docker images):
 - Rocky Linux 9
 - Debian Bullseye
 
-You can test the role directly from sources using command `molecule test`
+You can test the role directly from sources using commands `devbox install ; devbox run molecule test`
 
 ## License
 

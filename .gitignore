@@ -13,6 +13,7 @@ libvirt/
 
 # globs
 **/__pycache__/**
+molecule/**/roles/
 pokerops-rke2-*.tar.gz
 *.ymle
 
