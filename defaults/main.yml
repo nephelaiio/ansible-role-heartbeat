@@ -1,10 +1,16 @@
 ---
-heartbeat_package_names: heartbeat-elastic
-heartbeat_package_state: present
+heartbeat_package_name: heartbeat-elastic
+heartbeat_package_state: "{{ heartbeat_service_enabled | ternary('present', 'absent') }}"
 heartbeat_package_hold: false
 heartbeat_conf_manage: true
 heartbeat_conf_path: /etc/heartbeat/heartbeat.yml
 heartbeat_service_name: heartbeat-elastic
-heartbeat_service_status: started
-heartbeat_service_enabled: true
+heartbeat_service_status: "{{ heartbeat_service_enabled | ternary('started', 'stopped') }}"
+heartbeat_service_enabled: "{{ heartbeat_conf_monitors | length > 0 }}"
 heartbeat_repo_manage: true
+heartbeat_conf_monitors: []
+heartbeat_conf_output: {}
+heartbeat_conf:
+  heartbeat:
+    monitors: "{{ heartbeat_conf_monitors }}"
+  output: "{{ heartbeat_conf_output }}"

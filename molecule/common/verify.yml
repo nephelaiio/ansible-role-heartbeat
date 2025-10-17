@@ -15,10 +15,10 @@
 
     - name: Check package version
       ansible.builtin.fail:
-        msg: "Found unexpected major version '{{ _version[0] }}' expected '{{ elasticsearch_repo_major_version }}'"
+        msg: "Found unexpected major version '{{ _version[0] }}' expected '{{ elastic_repo_major_version }}'"
       vars:
         _version: "{{ packages[_package][0].version }}"
-      when: (_version[0] | string) != (elasticsearch_repo_major_version | string)
+      when: (_version[0] | string) != (elastic_repo_major_version | string)
 
     - name: Collect service facts
       ansible.builtin.service_facts:
@@ -35,13 +35,12 @@
 
     - name: Verify output file
       ansible.builtin.stat:
-        path: "{{ heartbeat_conf.output.file.path }}/{{ heartbeat_conf.output.file.filename }}{{ _suffix }}"
+        path: "{{ heartbeat_conf_output.file.path }}/{{ heartbeat_conf_output.file.filename }}{{ _suffix }}"
       vars:
         _version: "{{ packages[_package][0].version }}"
         _date: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}"
-        _suffix_7x: ""
-        _suffix_8x: "-{{ _date }}.ndjson"
-        _suffix: "{{ _version is version('8.0.0', '>=') | ternary(_suffix_8x, _suffix_7x) }}"
+        _ndjson: "-{{ _date }}.ndjson"
+        _suffix: "{{ _version is version('8.0.0', '>=') | ternary(_ndjson, '') }}"
       register: _output_file
       retries: 2
       delay: 60

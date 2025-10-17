@@ -27,18 +27,17 @@ provisioner:
   inventory:
     group_vars:
       all:
-        elasticsearch_repo_major_version: "{{ lookup('env','MOLECULE_ELASTICSEARCH_MAJOR_VERSION') }}"
+        elastic_repo_major_version: "{{ lookup('env','MOLECULE_ELASTICSEARCH_MAJOR_VERSION') }}"
         heartbeat_package_hold: true
-        heartbeat_conf:
-          heartbeat:
-            monitors:
-              - type: http
-                schedule: "*/1 * * * * * *"
-                urls:
-                  - https://www.google.com
-          output:
-            file:
-              path: /tmp
-              filename: heartbeat
+        heartbeat_conf_monitors:
+          - type: http
+            schedule: "@every 10s"
+            urls:
+              - https://www.google.com
+            check.response.status: 200
+        heartbeat_conf_output:
+          file:
+            path: /tmp
+            filename: heartbeat
 verifier:
   name: ansible

@@ -22,7 +22,7 @@
           community.general.yum_versionlock:
             name: "{{ item }}"
             state: absent
-          loop: "{{ [heartbeat_package_names] | flatten }}"
+          loop: "{{ [heartbeat_package_name] | flatten }}"
           changed_when: false
           when: item in packages
 
@@ -30,7 +30,7 @@
       ansible.builtin.dpkg_selections:
         name: "{{ item }}"
         selection: install
-      loop: "{{ [heartbeat_package_names] | flatten }}"
+      loop: "{{ [heartbeat_package_name] | flatten }}"
       changed_when: false
       when:
         - item in packages
@@ -38,7 +38,7 @@
 
 - name: Install heartbeat packages
   ansible.builtin.package:
-    name: "{{ heartbeat_package_names }}"
+    name: "{{ heartbeat_package_name }}"
     state: "{{ heartbeat_package_state }}"
 
 - name: Configure heartbeat
@@ -51,7 +51,7 @@
           ansible.builtin.dpkg_selections:
             name: "{{ item }}"
             selection: hold
-          loop: "{{ [heartbeat_package_names] | flatten }}"
+          loop: "{{ [heartbeat_package_name] | flatten }}"
           changed_when: false
           when: ansible_os_family == 'Debian'
 
@@ -59,7 +59,7 @@
           community.general.yum_versionlock:
             name: "{{ item }}"
             state: present
-          loop: "{{ [heartbeat_package_names] | flatten }}"
+          loop: "{{ [heartbeat_package_name] | flatten }}"
           changed_when: false
           when: ansible_os_family == 'RedHat'
 
@@ -74,7 +74,9 @@
         group: root
         mode: "0600"
       notify: heartbeat_restart
-      when: heartbeat_conf_manage
+      when:
+        - heartbeat_conf_manage
+        - heartbeat_conf_monitors | length > 0
 
     - name: Include service tasks
       ansible.builtin.include_tasks: service.yml
