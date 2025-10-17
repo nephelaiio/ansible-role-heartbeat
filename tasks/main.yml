@@ -1,4 +1,9 @@
 ---
+- name: Check configuration params
+  ansible.builtin.assert:
+    that: (heartbeat_conf_monitors | length == 0) or (heartbeat_conf_output | length > 0)
+    fail_msg: "At least one output must be defined when heartbeat monitors are defined"
+
 - name: Configure elastic repository
   ansible.builtin.include_role:
     name: nephelaiio.elastic_repo
@@ -42,7 +47,7 @@
     state: "{{ heartbeat_package_state }}"
 
 - name: Configure heartbeat
-  when: heartbeat_package_state in ['present', 'latest']
+  when: heartbeat_package_state != 'absent'
   block:
     - name: Enable package locks
       when: heartbeat_package_hold

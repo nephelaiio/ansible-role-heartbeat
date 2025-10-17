@@ -9,12 +9,6 @@ An [ansible role](https://galaxy.ansible.com/nephelaiio/heartbeat) to install an
 
 Please refer to the [defaults file](/defaults/main.yml) for an up to date list of input parameters.
 
-## Dependencies
-
-- [nephelaiio.heartbeat](https://galaxy.ansible.com/nephelaiio/heartbeat/)
-
-Please review the [dependency configuration](/meta/main.yml) for more details
-
 ## Example Playbook
 
 ```
