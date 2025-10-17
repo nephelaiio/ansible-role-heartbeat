@@ -1,5 +1,5 @@
 ---
-name: version
+name: lint
 permissions:
   contents: read
 on:
