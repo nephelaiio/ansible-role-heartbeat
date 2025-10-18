@@ -35,6 +35,7 @@ Please make sure your environment has [devbox](https://www.jetify.com/devbox) [d
 
 Role is tested against the following distributions (docker images):
 
+- Ubuntu Noble
 - Ubuntu Focal
 - Ubuntu Bionic
 - Rocky Linux 9
