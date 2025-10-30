@@ -9,8 +9,10 @@ heartbeat_service_status: "{{ heartbeat_service_enabled | ternary('started', 'st
 heartbeat_service_enabled: "{{ heartbeat_conf_monitors | length > 0 }}"
 heartbeat_repo_manage: true
 heartbeat_conf_monitors: []
+heartbeat_conf_fields: {}
 heartbeat_conf_output: {}
 heartbeat_conf:
   heartbeat:
     monitors: "{{ heartbeat_conf_monitors }}"
+  fields: "{{ heartbeat_conf_fields  }}"
   output: "{{ heartbeat_conf_output }}"

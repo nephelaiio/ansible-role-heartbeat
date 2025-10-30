@@ -83,5 +83,8 @@
         - heartbeat_conf_manage
         - heartbeat_conf_monitors | length > 0
 
-    - name: Include service tasks
-      ansible.builtin.include_tasks: service.yml
+    - name: Manage heartbeat services
+      ansible.builtin.service:
+        name: "{{ heartbeat_service_name }}"
+        state: "{{ heartbeat_service_status }}"
+        enabled: "{{ heartbeat_service_enabled }}"
